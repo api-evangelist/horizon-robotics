@@ -1,0 +1,43 @@
+{
+  "resources": [
+    {
+      "uri": "openexplorer://mcp/overview",
+      "name": "openexplorer_overview",
+      "title": "OpenExplorer MCP Overview",
+      "description": "当前 MCP 服务能力总览，包括代码检索、文档检索以及适用场景。",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 1
+      }
+    },
+    {
+      "uri": "openexplorer://mcp/tools",
+      "name": "openexplorer_tool_catalog",
+      "title": "OpenExplorer MCP Tool Catalog",
+      "description": "当前 MCP tool 的用途、推荐调用顺序与典型问题映射。",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 1
+      }
+    },
+    {
+      "uri": "openexplorer://mcp/agent-guide",
+      "name": "openexplorer_agent_guide",
+      "title": "OpenExplorer MCP Agent Guide",
+      "description": "给 agent 的使用指引：处理问题时优先检查是否能先使用本 MCP 获取上下文。",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 1
+      }
+    }
+  ]
+}

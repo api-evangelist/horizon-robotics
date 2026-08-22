@@ -1,0 +1,97 @@
+generated: '2026-08-22'
+method: probed
+source: https://mcp.oe.horizon.auto/mcp
+name: Open Explorer MCP Server
+description: >-
+  Horizon Robotics' hosted Model Context Protocol server for the OpenExplorer (OE)
+  toolchain. It gives a coding agent semantic retrieval over Horizon's indexed
+  codebases (Milvus-backed) and the Horizon documentation library, so an agent can
+  locate an implementation, a configuration entry point or a manual passage before
+  it acts. Advertised by Horizon Robotics in the install instructions of its own
+  OE-Skills repository.
+status: live
+deployment:
+  mode: remote
+  endpoint: https://mcp.oe.horizon.auto/mcp
+  transport: streamable-http
+  auth: none
+  verified: probed
+protocol:
+  spec: Model Context Protocol
+  version: '2025-06-18'
+  server_info:
+    name: Open Explorer MCP Server
+    version: 3.9.0
+  capabilities:
+    tools: true
+    resources: true
+    prompts: false            # prompts/list returns JSON-RPC -32601 Method not found
+tool_count: 4
+tools:
+- name: list_codebases
+  summary: List the codebases / Milvus collections currently indexed and available as search scope.
+  read_only: true
+  idempotent: true
+  required_params: []
+- name: search_code
+  summary: Semantic natural-language search across indexed Horizon codebases, optionally scoped to named collections.
+  read_only: true
+  idempotent: true
+  required_params: [query]
+- name: search_doc
+  summary: Semantic search of Horizon document snippets — manuals, guides, references. Defaults to the `oe_doc` library.
+  read_only: true
+  idempotent: true
+  required_params: [query]
+- name: get_doc
+  summary: Read the full content overview of a document by docId, normally after search_doc returns one.
+  read_only: true
+  idempotent: true
+  required_params: [path, docId]
+resource_count: 3
+resources:
+- uri: openexplorer://mcp/overview
+  name: openexplorer_overview
+  mime: text/markdown
+- uri: openexplorer://mcp/tools
+  name: openexplorer_tool_catalog
+  mime: text/markdown
+- uri: openexplorer://mcp/agent-guide
+  name: openexplorer_agent_guide
+  mime: text/markdown
+install:
+  claude_code: claude mcp add --transport http oe-mcp https://mcp.oe.horizon.auto/mcp
+  codex: codex mcp add oe-mcp --url https://mcp.oe.horizon.auto/mcp
+  generic_config: |
+    {"mcpServers": {"oe-mcp": {"type": "http", "url": "https://mcp.oe.horizon.auto/mcp"}}}
+  documented_at: https://github.com/HorizonRobotics/OE-Skills/blob/main/README.en.md
+files:
+- horizon-robotics-mcp-tools.json      # verbatim tools/list result
+- horizon-robotics-mcp-resources.json  # verbatim resources/list result
+x-evidence:
+  fetched: '2026-08-22'
+  probes:
+  - method: initialize
+    url: https://mcp.oe.horizon.auto/mcp
+    http_status: 200
+    content_type: text/event-stream
+    result: protocolVersion 2025-06-18, serverInfo "Open Explorer MCP Server" 3.9.0
+  - method: tools/list
+    url: https://mcp.oe.horizon.auto/mcp
+    http_status: 200
+    result: 4 tools with full inputSchema, saved verbatim
+  - method: resources/list
+    url: https://mcp.oe.horizon.auto/mcp
+    http_status: 200
+    result: 3 resources
+  - method: prompts/list
+    url: https://mcp.oe.horizon.auto/mcp
+    http_status: 200
+    result: 'JSON-RPC error -32601 Method not found'
+  - url: https://mcp.oe.horizon.auto/.well-known/oauth-protected-resource
+    http_status: 404
+  notes: >-
+    No Authorization header, session id or client registration was needed; the server
+    answered anonymous POSTs from a plain curl. Every tool carries MCP annotations
+    readOnlyHint:true, destructiveHint:false, idempotentHint:true — the server exposes
+    no write surface.

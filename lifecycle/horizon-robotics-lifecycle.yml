@@ -1,0 +1,97 @@
+generated: '2026-08-22'
+method: searched
+source: https://developer.horizon.auto/docs
+summary: >-
+  Horizon Robotics versions its toolchain products in the documentation URL itself — one
+  documentation tree per chip generation per release — but publishes no API lifecycle
+  policy of any kind for its machine surface. No status page, no deprecation policy, no
+  sunset headers, no SLA, no end-of-life schedule. Version discipline is good at the
+  artifact level and absent at the service level.
+versioning:
+  scheme: per-product semantic versioning, encoded in the documentation path
+  documented_versions:
+  - product: Journey 5 (征程 5) algorithm toolchain
+    version: 1.1.77
+    docs: https://developer.horizon.auto/docs/J5/toolchain/1.1.77/brief
+  - product: Journey 5 chip / microchipVIP
+    version: '2.02'
+    docs: https://developer.horizon.auto/docs/J5/microchipVIP/2.02/BringupFAQ
+  - product: Journey 3 (征程 3) algorithm toolchain
+    version: 1.16.6
+    docs: https://developer.horizon.auto/docs/J3/toolchain/1.16.6/1Products
+  - product: Journey 6 (征程 6) underlying software
+    version: 1.0.0
+    docs: https://developer.horizon.auto/docs/J6/software/1.0.0/brief
+  - product: Journey 6 algorithm toolchain (OpenExplorer)
+    version: '3.0.31'
+    docs: https://doc.oe.horizon.auto/3.0.31/en/guide/preface/learn_oe.html
+  - product: Open Explorer MCP Server
+    version: 3.9.0
+    source: probed serverInfo at https://mcp.oe.horizon.auto/mcp on 2026-08-22
+  - product: OE-Skills agent skill pack
+    version: 0.2.0
+    source: https://raw.githubusercontent.com/HorizonRobotics/OE-Skills/main/horizon/VERSION
+  note: >-
+    Multiple chip generations are documented side by side (J3, J5, J6), which is itself a
+    long-support signal — J3 material from an older toolchain line is still served.
+deprecation:
+  policy_published: false
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    No deprecation or end-of-support policy was found for any product line. Older
+    generations are still documented but nothing states for how long, or what notice a
+    customer gets. Searched developer.horizon.auto, doc.oe.horizon.auto and the legal
+    section; nothing.
+status_page:
+  published: false
+  url: null
+  probed:
+  - {url: 'https://status.horizon.auto/', status: 0, note: DNS does not resolve}
+  - {url: 'https://www.horizon.auto/sitemap.xml', status: 200, note: 474 URLs, no status or uptime path}
+  note: >-
+    No status page, uptime history or incident feed exists for the MCP server, the
+    developer portal or the documentation hosts — which matters here, because the
+    documentation host doc.oe.horizon.auto was serving an EXPIRED TLS certificate on
+    2026-08-22 and there is no channel on which Horizon would have announced it.
+sla:
+  published: false
+  note: No availability or support SLA is published for any developer-facing surface.
+support:
+  channel: https://developer.horizon.auto/forum
+  type: community forum with recurring vendor Q&A sessions
+  security_contact: report_vulnerability@horizon.auto
+  security_sla: >-
+    The product-security policy imposes a 168-hour (7-day) reporting window on the
+    reporter for in-vehicle vulnerabilities but commits Horizon to no response deadline of
+    its own.
+observed_health:
+  date: '2026-08-22'
+  incidents:
+  - host: doc.oe.horizon.auto
+    finding: expired TLS certificate — default TLS verification refuses the connection
+    impact: >-
+      The canonical OpenExplorer toolchain manual, linked from
+      developer.horizon.auto/docs, cannot be fetched by any client that verifies
+      certificates, including most automated toolchains and agents.
+    severity: high
+    method: probed
+  - host: www.horizon.auto
+    finding: 'the product-security page instructs reporters to encrypt with a PGP key and renders the unfilled template placeholders "[pgp-public-key.asc]" and "(insert key link)"; no key is served'
+    severity: medium
+    method: probed
+cross_links:
+  changelog: changelog/horizon-robotics-changelog.yml
+  security: security/horizon-robotics-vulnerability-disclosure.yml
+  conventions: conventions/horizon-robotics-conventions.yml
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - {url: 'https://developer.horizon.auto/docs', status: 200}
+  - {url: 'https://developer.horizon.auto/docs/J5/toolchain/1.1.77/brief', status: 200}
+  - {url: 'https://doc.oe.horizon.auto/', status: 200, note: 'reachable only with TLS verification disabled — certificate expired'}
+  - {url: 'https://mcp.oe.horizon.auto/mcp', status: 200}
+  - {url: 'https://raw.githubusercontent.com/HorizonRobotics/OE-Skills/main/horizon/VERSION', status: 200}

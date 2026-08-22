@@ -1,0 +1,179 @@
+generated: '2026-08-22'
+method: probed
+source: live probes of every Horizon Robotics host reachable from apis.yml
+hit_count: 0
+summary: >-
+  Nothing is served. Every /.well-known/ path was probed on all six Horizon Robotics
+  hosts and not one returned a real document. Two distinct failure shapes were seen and
+  both are recorded so neither is mistaken for a hit: www.horizon.auto and
+  mcp.oe.horizon.auto return honest 404s, while developer.horizon.auto, oe.horizon.auto
+  and chat.oe.horizon.auto are single-page-app catch-alls that answer HTTP 200 with an
+  identical HTML shell for EVERY path, including paths that cannot exist. No WellKnown
+  or SecurityTxt pointer is emitted from this file.
+hosts:
+- host: https://www.horizon.auto
+  soft_404_control:
+    path: /.well-known/api-catalog
+    status: 404
+    bytes: 548
+    note: genuine 404 handler
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://mcp.oe.horizon.auto
+  soft_404_control:
+    path: /llms.txt
+    status: 404
+    bytes: 147
+    note: genuine 404 handler (Express)
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://developer.horizon.auto
+  soft_404_control:
+    path: /.well-known/api-catalog
+    status: 200
+    bytes: 92195
+    content_type: text/html
+    note: >-
+      Nuxt SPA catch-all. Every non-routed path returns the same 92,195-byte HTML
+      shell, so a 200 here proves nothing. Treated as a miss.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: SPA shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: SPA shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: SPA shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: SPA shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://oe.horizon.auto
+  soft_404_control:
+    path: /.well-known/api-catalog
+    status: 200
+    bytes: 927
+    content_type: text/html
+    note: catch-all; identical 927-byte body on every path. Treated as a miss.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+- host: https://chat.oe.horizon.auto
+  soft_404_control:
+    path: /.well-known/api-catalog
+    status: 200
+    bytes: 11099
+    content_type: text/html
+    note: catch-all; identical 11,099-byte body on every path. Treated as a miss.
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    note: catch-all shell, not a document
+- host: https://doc.oe.horizon.auto
+  tls_note: >-
+    The documentation host presents an EXPIRED TLS certificate as of 2026-08-22; a
+    default curl refuses the connection ("SSL certificate problem: certificate has
+    expired") and these probes had to be run with verification disabled. This is the
+    canonical OpenExplorer toolchain manual host linked from developer.horizon.auto/docs.
+  soft_404_control:
+    path: /.well-known/api-catalog
+    status: 404
+    bytes: 555
+    note: genuine 404 handler
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404

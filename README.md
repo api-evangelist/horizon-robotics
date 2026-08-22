@@ -64,5 +64,63 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Horizon Robotics is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/horizon-robotics_stock/
+Horizon Robotics (Hong Kong Stock Exchange: 9660.HK, founded 2015) designs the Journey (征程)
+family of automotive AI processors around its own BPU (Brain Processing Unit) architecture, and
+ships the smart-driving software stack that runs on them — Horizon Mono ADAS, Horizon SuperDrive,
+TogetheROS, Matrix, QoHo and AIDI.
+
+**Horizon Robotics does not operate a hosted web API.** There is no OpenAPI document, no GraphQL
+endpoint, no event surface, no pricing page and no self-serve signup. That was established by
+probing, not assumed: `/openapi.json`, `/openapi.yaml`, `/swagger.json`, `/v1/openapi.json`,
+`/api-docs`, `/redoc`, `/graphql` and the full `/.well-known/` set were fetched against six hosts
+(`www.horizon.auto`, `developer.horizon.auto`, `doc.oe.horizon.auto`, `oe.horizon.auto`,
+`chat.oe.horizon.auto`, `mcp.oe.horizon.auto`) on 2026-08-22 and every one either 404'd or returned
+a single-page-app catch-all shell.
+
+What Horizon *does* publish is two real agent surfaces on top of its OpenExplorer toolchain:
+
+- **A live remote MCP server** at `https://mcp.oe.horizon.auto/mcp` — Model Context Protocol
+  `2025-06-18`, serverInfo *Open Explorer MCP Server* 3.9.0, **no authentication required**. Four
+  read-only tools (`list_codebases`, `search_code`, `search_doc`, `get_doc`) give an agent semantic
+  retrieval over Horizon's indexed codebases and documentation library, plus three MCP resources.
+  The verbatim `tools/list` and `resources/list` responses are saved in `mcp/`.
+- **OE-Skills** — Horizon's own Apache-2.0 Agent Skill pack
+  ([github.com/HorizonRobotics/OE-Skills](https://github.com/HorizonRobotics/OE-Skills), v0.2.0),
+  37 `SKILL.md` files indexed as 29 skills across six modules, driving HBDK compilation, HMCT/Plugin
+  quantization, UCP on-board inference and LLM compression from Claude Code, Codex or Cursor.
+  Indexed in `skills/_index.yml`; nothing in this repository was authored on Horizon's behalf.
+
+The developer contract for everything else is a command line, not an endpoint: `hb_compile`,
+`hb_model_info`, `hb_verifier`, `hb_analyzer`, `hb_config_generator` and `hb_eval_preprocess`,
+documented in `cli/`. The Python and C++ libraries behind them (`horizon_plugin_pytorch`,
+`hbdk4-compiler`, `hmct`, `hbDNN`, …) are real first-party SDKs but ship only inside the
+OpenExplorer package — none is on npm, PyPI, Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist
+or crates.io, all of which were probed. See `packages/`.
+
+### Findings worth the company's attention
+
+- `doc.oe.horizon.auto`, the canonical OpenExplorer manual linked from the developer portal, was
+  serving an **expired TLS certificate** on 2026-08-22. Any client that verifies certificates —
+  including most automated toolchains and agents — cannot read it.
+- The product-security page tells reporters to encrypt with a PGP key and renders the unfilled
+  template placeholders `[pgp-public-key.asc]` and `(insert key link)`. No key file is served.
+- The product-security policy's in-scope list names `github.com/HorizonRDK` (now the D-Robotics
+  spin-off) and `github.com/HorizonRobotics-Platform` (0 public repos), but not the active
+  `github.com/HorizonRobotics` org, and not the anonymously reachable MCP endpoint.
+- No `/.well-known/security.txt` on any host, despite a full disclosure policy existing.
+
+### Not Horizon Robotics
+
+**D-Robotics** (地瓜机器人 — `developer.d-robotics.cc`, `github.com/D-Robotics`, and the renamed
+`github.com/HorizonRDK` org) is a **separate company**, spun off from Horizon Robotics in 2024 and
+independently funded since. Its RDK developer kits, documentation and repositories are deliberately
+**not** catalogued here and must not be attributed to Horizon Robotics.
+
+### Links
+
+- Website — https://www.horizon.auto/en
+- Developer portal — https://developer.horizon.auto/
+- Documentation — https://developer.horizon.auto/docs
+- Forum — https://developer.horizon.auto/forum
+- GitHub — https://github.com/HorizonRobotics
+- Product security — https://www.horizon.auto/en/legal/security

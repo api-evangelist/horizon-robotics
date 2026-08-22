@@ -1,0 +1,47 @@
+generated: '2026-08-22'
+method: probed
+source: https://mcp.oe.horizon.auto/mcp
+limit_count: 0
+note: >-
+  No rate limits are published anywhere in Horizon Robotics' developer surface, and none
+  are signalled at runtime. Four consecutive anonymous JSON-RPC calls to the Open Explorer
+  MCP server (initialize, tools/list, resources/list, resources/read) all returned HTTP
+  200 and not one response carried a rate-limit header of any family. An honest zero: the
+  provider documents no quota and the edge advertises no budget, so a calling agent has no
+  way to pace itself except by observing failures.
+limits: []
+response_headers:
+  ratelimit_draft: []       # RateLimit-Limit / RateLimit-Remaining / RateLimit-Reset — none observed
+  x_ratelimit: []           # X-RateLimit-* — none observed
+  retry_after: false
+  observed_headers:
+  - server
+  - date
+  - content-type
+  - content-length
+  - x-powered-by
+  - cache-control
+  - req-cost-time
+  - req-arrive-time
+  - resp-start-time
+  - x-envoy-upstream-service-time
+  - x-request-id
+exhaustion:
+  status_code: null
+  observed: false
+  note: No 429 was reached or provoked; probing was deliberately light.
+docs_searched:
+- url: https://github.com/HorizonRobotics/OE-Skills/blob/main/README.en.md
+  status: 200
+  finding: install instructions only; no quota or throttling statement
+- url: https://developer.horizon.auto/docs
+  status: 200
+  finding: toolchain documentation index; no API quota page
+- url: https://doc.oe.horizon.auto/
+  status: 200
+  finding: OpenExplorer manual (expired TLS certificate); toolchain reference, no service limits
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://mcp.oe.horizon.auto/mcp
+    status: 200

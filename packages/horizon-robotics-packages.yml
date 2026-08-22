@@ -1,0 +1,134 @@
+generated: '2026-08-22'
+method: searched
+source: https://github.com/HorizonRobotics/OE-Skills — horizon/docs/oe_code_chunk_*.md, plus public registry probes
+summary: >-
+  Horizon Robotics ships a substantial first-party Python/C++ SDK surface, but NONE of it
+  is published to a public package registry. Every library below is distributed only
+  inside the versioned OpenExplorer (OE) release package — a tarball or Docker image
+  downloaded from the Horizon developer portal behind an account. npm, PyPI, Maven
+  Central, NuGet, pkg.go.dev, RubyGems, Packagist and crates.io were all probed and
+  returned 404 for every candidate name, so there is no registry metadata endpoint to
+  read a version or a publication date from. `version: null` on each entry means
+  "checked, nothing published", not "not checked". A consumer cannot pin a Horizon SDK
+  by version from any public index, and cannot tell from outside whether the copy they
+  hold is current.
+registry_probe:
+  date: '2026-08-22'
+  registries_probed: [npm, pypi, maven-central, nuget, pkg.go.dev, rubygems, packagist, crates.io]
+  names_probed:
+  - horizon-plugin-pytorch
+  - horizon_plugin_pytorch
+  - hbdk
+  - hbdk4
+  - hbdk4-compiler
+  - hmct
+  - horizon-tc-ui
+  - horizon-nn
+  - hobot-dnn
+  - horizon-robotics
+  hits: 0
+packages:
+- language: python
+  registry: vendor
+  name: horizon_plugin_pytorch
+  official: true
+  version: null
+  published: null
+  url: https://doc.oe.horizon.auto/
+  install: bundled in the OpenExplorer (OE) release package
+  summary: >-
+    Horizon's PyTorch quantization plugin — QAT preparation, fake-quantize configuration,
+    march selection, quantize/dequantize insertion, export to HBDK.
+  note: Not on PyPI (404 for both hyphen and underscore spellings on 2026-08-22).
+- language: python
+  registry: vendor
+  name: horizon_plugin_profiler
+  official: true
+  version: null
+  published: null
+  url: https://doc.oe.horizon.auto/
+  install: bundled in the OpenExplorer (OE) release package
+  summary: Profiling and training/deployment consistency debugging companion to horizon_plugin_pytorch.
+  note: Not on PyPI.
+- language: python
+  registry: vendor
+  name: hbdk4-compiler
+  official: true
+  version: null
+  published: null
+  url: https://doc.oe.horizon.auto/
+  install: bundled in the OpenExplorer (OE) release package
+  summary: HBDK4 compiler API — model convert/compile/export/serialize, HBM inspection and modification, node insertion/removal.
+  note: Not on PyPI.
+- language: python
+  registry: vendor
+  name: hmct
+  official: true
+  version: null
+  published: null
+  url: https://doc.oe.horizon.auto/
+  install: bundled in the OpenExplorer (OE) release package
+  summary: Horizon Model Conversion Toolkit — PTQ calibration, mixed-precision and cosine-similarity accuracy tuning. A CUDA variant (hmct-gpu) is documented alongside it.
+  note: Not on PyPI.
+- language: python
+  registry: vendor
+  name: horizon_tc_ui
+  official: true
+  version: null
+  published: null
+  url: https://doc.oe.horizon.auto/
+  install: bundled in the OpenExplorer (OE) release package
+  summary: The toolchain CLI package (hb_compile, hb_model_info, hb_verifier, hb_analyzer, hb_config_generator, hb_eval_preprocess). See cli/horizon-robotics-cli.yml.
+  note: Not on PyPI.
+- language: c++
+  registry: vendor
+  name: hbDNN
+  official: true
+  version: null
+  published: null
+  url: https://doc.oe.horizon.auto/
+  install: bundled in the OpenExplorer (OE) / UCP on-board runtime
+  summary: The on-board BPU inference runtime API used to load and execute compiled .hbm models on Journey silicon.
+  note: C++ headers + shared libraries shipped with the board BSP; no public artifact repository.
+- language: python
+  registry: vendor
+  name: llm_compression
+  official: true
+  version: null
+  published: null
+  url: https://github.com/HorizonRobotics/OE-Skills/blob/main/horizon/docs/oe_code_chunk_llm_compression.md
+  install: bundled in the OE LLM package
+  summary: LLM calibration, compression and on-board evaluation pipeline (LightCompress RTN/GPTQ/AWQ/SmoothQuant).
+  note: Not on PyPI; installed by the OE-Skills `oe-llm-package-install` skill.
+- language: c++
+  registry: vendor
+  name: oellm_runtime
+  official: true
+  version: null
+  published: null
+  url: https://github.com/HorizonRobotics/OE-Skills/blob/main/horizon/docs/oe_code_chunk_oellm_runtime.md
+  install: bundled in the OE LLM package
+  summary: On-board runtime for compressed LLMs on Journey/BPU targets.
+  note: Not on PyPI.
+open_source_repositories:
+  note: >-
+    github.com/HorizonRobotics publishes 44 research and robotics repositories (ALF,
+    Sparse4D, HoloMotion, EmbodiedGen, RoboOrchard, BIP3D, GUMP, ...). These are research
+    code released under open licences, not versioned client SDKs for a Horizon API, so
+    they are catalogued as source rather than as packages.
+  url: https://github.com/HorizonRobotics
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://pypi.org/pypi/horizon-plugin-pytorch/json
+    status: 404
+  - url: https://pypi.org/pypi/hbdk4-compiler/json
+    status: 404
+  - url: https://pypi.org/pypi/hmct/json
+    status: 404
+  - url: https://pypi.org/pypi/horizon-tc-ui/json
+    status: 404
+  - url: https://registry.npmjs.org/horizon-robotics
+    status: 404
+  - url: https://api.github.com/repos/HorizonRobotics/OE-Skills/git/trees/main?recursive=1
+    status: 200

@@ -1,18 +1,61 @@
 aid: horizon-robotics
 name: Horizon Robotics
-description: 'Horizon Robotics is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Horizon Robotics (Hong Kong Stock Exchange: 9660.HK) is a Chinese provider
+  of smart-driving computing solutions, founded in 2015, that designs the Journey (征程)
+  family of automotive AI processors around its proprietary BPU (Brain Processing Unit)
+  architecture and pairs them with a full software stack — Horizon Mono ADAS, Horizon
+  SuperDrive assisted driving, TogetheROS, Matrix, QoHo and AIDI. Its developer-facing
+  surface is not a hosted web API but a toolchain: OpenExplorer (OE), the model
+  compilation, quantization and deployment kit built around HBDK, HMCT, the Horizon
+  PyTorch Plugin, horizon_tc_ui and the UCP on-board runtime, documented at
+  developer.horizon.auto and doc.oe.horizon.auto. Horizon publishes two genuine agent
+  surfaces on top of that toolchain: a live, unauthenticated remote Model Context
+  Protocol server at mcp.oe.horizon.auto that exposes semantic code and documentation
+  retrieval, and OE-Skills, an Apache-2.0 pack of 37 structured Agent Skills for
+  Claude Code, Codex and Cursor that drive HBDK compilation, PTQ/QAT quantization,
+  UCP on-board inference and LLM compression.'
+image: https://www.horizon.auto/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/horizon-robotics/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-22'
 modified: '2026-08-22'
 tags:
 - Company
-apis: []
+- Artificial Intelligence
+- Automotive
+- Autonomous Driving
+- Semiconductors
+- Robotics
+- Edge AI
+- Machine Learning
+- Model Context Protocol
+- Agent Skills
+- Developer Tools
+- China
+apis:
+- name: Open Explorer MCP Server
+  description: 'Horizon Robotics'' hosted Model Context Protocol server for the
+    OpenExplorer toolchain. Probed anonymously on 2026-08-22: MCP protocol version
+    2025-06-18, serverInfo "Open Explorer MCP Server" v3.9.0, four read-only tools
+    (list_codebases, search_code, search_doc, get_doc) providing semantic retrieval
+    over indexed Horizon codebases and the Horizon documentation library, plus three
+    MCP resources. No authentication is required.'
+  humanURL: https://github.com/HorizonRobotics/OE-Skills
+  baseURL: https://mcp.oe.horizon.auto/mcp
+  tags:
+  - Model Context Protocol
+  - Developer Tools
+  - Documentation
+  - Code Search
+  properties:
+  - type: MCPServer
+    url: mcp/horizon-robotics-mcp.yml
+  - type: Authentication
+    url: authentication/horizon-robotics-authentication.yml
+  - type: ErrorCatalog
+    url: errors/horizon-robotics-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +63,62 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/horizon-robotics_stock/
+  url: https://www.horizon.auto/en
+- type: DeveloperPortal
+  url: https://developer.horizon.auto/
+- type: Documentation
+  url: https://developer.horizon.auto/docs
+- type: Blog
+  url: https://developer.horizon.auto/blog
+- type: Support
+  url: https://developer.horizon.auto/forum
+- type: SignUp
+  url: https://developer.horizon.auto/login
+- type: GitHubOrganization
+  url: https://github.com/HorizonRobotics
+- type: PrivacyPolicy
+  url: https://www.horizon.auto/en/legal/privacy
+- type: IntellectualProperty
+  url: https://www.horizon.auto/en/legal/intellectual-property-rights
+- type: Security
+  url: security/horizon-robotics-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/horizon-robotics-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/horizon-robotics-domain-security.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: MCPServer
+  url: mcp/horizon-robotics-mcp.yml
+- type: CLI
+  url: cli/horizon-robotics-cli.yml
+- type: Packages
+  url: packages/horizon-robotics-packages.yml
+- type: SDKs
+  url: packages/horizon-robotics-packages.yml
+- type: Conventions
+  url: conventions/horizon-robotics-conventions.yml
+- type: Idempotency
+  url: conventions/horizon-robotics-conventions.yml
+- type: ErrorCatalog
+  url: errors/horizon-robotics-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/horizon-robotics-lifecycle.yml
+- type: Conformance
+  url: conformance/horizon-robotics-conformance.yml
+- type: Authentication
+  url: authentication/horizon-robotics-authentication.yml
+- type: RateLimits
+  url: rate-limits/horizon-robotics-rate-limits.yml
+- type: Plans
+  url: plans/horizon-robotics-plans-pricing.yml
+- type: ChangeLog
+  url: changelog/horizon-robotics-changelog.yml
+- type: LLMsTxt
+  url: llms/horizon-robotics-llms.txt
+
+x-enrichment:
+  date: '2026-08-22'
+  status: enriched
+  artifacts_added: 20
+  pass: local-v1

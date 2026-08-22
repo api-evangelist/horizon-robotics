@@ -1,0 +1,49 @@
+generated: '2026-08-22'
+method: searched
+source: https://www.horizon.auto/en
+plan_count: 0
+note: >-
+  Horizon Robotics publishes no plans, tiers or prices of any kind. It is an automotive
+  silicon and smart-driving software supplier that sells through OEM and Tier-1 design
+  wins under commercial agreements, not a self-serve API business. There is no pricing
+  page on www.horizon.auto — its sitemap (474 URLs, fetched 2026-08-22) contains no
+  /pricing, /plans or /buy path — and no billing or entitlement surface in the developer
+  portal. The developer-facing goods that DO exist are free of charge and gated only by
+  registration or by nothing at all, which is recorded below so the zero is not read as
+  "everything is paid".
+plans: []
+free_surfaces:
+- name: Open Explorer MCP Server
+  url: https://mcp.oe.horizon.auto/mcp
+  cost: free
+  gate: none — anonymous access, verified 2026-08-22
+- name: OpenExplorer (OE) toolchain package
+  url: https://oe.horizon.auto/
+  cost: free
+  gate: developer portal account required to download
+- name: OE-Skills agent skill pack
+  url: https://github.com/HorizonRobotics/OE-Skills
+  cost: free
+  gate: none — Apache-2.0 on GitHub
+- name: OpenExplorer documentation
+  url: https://doc.oe.horizon.auto/
+  cost: free
+  gate: none
+commercial_route:
+  model: OEM / Tier-1 design win, hardware plus licensed software stack
+  contact: https://www.horizon.auto/message-form
+  note: >-
+    Horizon states in its own product-security policy that OEM partners coordinate through
+    a designated Horizon Robotics project manager. Chip and solution commercials are not
+    published; the company is listed on the Hong Kong Stock Exchange (9660.HK) and reports
+    revenue in its filings at https://www.horizon.auto/investor-relations/report.
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://www.horizon.auto/sitemap.xml
+    status: 200
+    finding: 474 URLs, none matching /pricing, /plans, /buy or /store
+  - url: https://www.horizon.auto/en
+    status: 200
+  - url: https://www.horizon.auto/message-form
+    status: 200

@@ -1,0 +1,89 @@
+generated: '2026-08-22'
+method: searched
+source: https://github.com/HorizonRobotics/OE-Skills/blob/main/horizon/skills/horizon_tc_ui/horizon-tc-ui/SKILL.md
+name: horizon_tc_ui — OpenExplorer toolchain CLI
+description: >-
+  Horizon Robotics' first-party command-line toolchain, shipped inside the OpenExplorer
+  (OE) package. It is the primary developer interface to the Journey (征程) BPU platform:
+  it takes a floating-point ONNX or Caffe model through YAML configuration, PTQ
+  quantization, HBIR (.bc) and HBM (.hbm) artifact generation, then accuracy
+  verification, performance analysis and on-board deployment. Horizon does not publish
+  a hosted HTTP API for this — the CLI is the contract.
+distribution:
+  channel: OpenExplorer (OE) release package
+  download: https://oe.horizon.auto/
+  docs: https://doc.oe.horizon.auto/
+  registry: none                # not published to PyPI/npm/conda — see packages/
+  note: >-
+    The OE package is a versioned tarball / Docker image obtained from the Horizon
+    developer portal; a portal account is required for download. The CLI is not
+    installable from any public package registry.
+command_groups:
+- name: configuration
+  commands:
+  - name: hb_config_generator
+    summary: Generate a compilation YAML configuration template.
+    examples:
+    - hb_config_generator -s
+    - hb_config_generator -f -m model.onnx --march nash-e
+- name: compilation
+  commands:
+  - name: hb_compile
+    summary: Compile and PTQ-quantize an ONNX/Caffe model into HBIR/HBM for a given BPU march.
+    examples:
+    - hb_compile -c config.yaml
+    - hb_compile -m model.onnx --march nash-e
+    - hb_compile --fast-perf -m model.onnx --march nash-e
+- name: inspection
+  commands:
+  - name: hb_model_info
+    summary: Inspect an .onnx, .bc (HBIR) or .hbm model — inputs, outputs, quantization type.
+    examples:
+    - hb_model_info model.onnx
+    - hb_model_info model.hbm
+- name: verification
+  commands:
+  - name: hb_verifier
+    summary: Verify accuracy and run on-board (SSH) deployment verification of a compiled model.
+  - name: hb_eval_preprocess
+    summary: Preprocess evaluation datasets for accuracy validation.
+- name: performance
+  commands:
+  - name: hb_analyzer
+    summary: Analyze model performance — latency, bandwidth, BPU utilisation, bottlenecks — from perf JSON or live board runs.
+target_architectures:
+- nash-b-lite
+- nash-b
+- nash-b-plus
+- nash-e
+- nash-m
+- nash-p
+- nash-h
+key_flows:
+- name: float model to on-board deployment
+  steps: ONNX/Caffe model -> YAML config -> PTQ quantization -> HBIR (.bc) -> HBM (.hbm) -> accuracy verification / performance analysis / board deployment
+related_cli:
+- name: oe-cli
+  summary: >-
+    An internal OE Skill Hub client referenced by the OE-Skills changelogs — `oe-cli skill
+    inspect <skill> --version <semver>` reads per-version release notes from the Hub.
+  public: false
+  note: >-
+    Not documented publicly and not obtainable from any public location found; recorded
+    because Horizon's own changelog files point readers at it, which means the public
+    changelog is incomplete by design.
+  source: https://github.com/HorizonRobotics/OE-Skills/blob/main/horizon/skills/hbdk/j6-hbdk-compile/CHANGELOG.md
+
+agent_wrapper:
+  note: >-
+    Horizon packages this CLI for AI coding agents as the `horizon-tc-ui` and
+    `hb-analyzer-performance` skills in OE-Skills — see skills/_index.yml.
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://raw.githubusercontent.com/HorizonRobotics/OE-Skills/main/horizon/skills/horizon_tc_ui/horizon-tc-ui/SKILL.md
+    status: 200
+  - url: https://raw.githubusercontent.com/HorizonRobotics/OE-Skills/main/horizon/skill-index.json
+    status: 200
+  - url: https://developer.horizon.auto/docs
+    status: 200

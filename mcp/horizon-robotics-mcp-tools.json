@@ -1,0 +1,129 @@
+{
+  "tools": [
+    {
+      "name": "search_code",
+      "description": "\n    Search indexed codebases in Milvus using natural language queries.\n\n    You can optionally provide a search scope. When scope is provided, only the specified indexed collections/codebases will be searched.\n\n    Use list_codebases first if you need to know which codebases are currently indexed.\n    ",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Natural language query to search for in the indexed codebases"
+          },
+          "scope": {
+            "type": "array",
+            "description": "Optional list of indexed codebase names to restrict the search scope",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of results to return",
+            "default": 10,
+            "maximum": 50
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "list_codebases",
+      "description": "\n    List the codebases that are currently indexed in Milvus.\n\n    The result is determined from indexed collection names. Use this tool before search_code if you need to know valid scope values.\n    ",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "search_doc",
+      "description": "\nSearch Horizon-related document snippets by natural language query, including manuals, guides, references, and relevant passages.\nUse document library path `oe_doc` by default. Only provide `path` when you need to search a different library.\nDo not provide `filters` unless you explicitly need constraints such as version.\n",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Document library identifier. Defaults to oe_doc when omitted.",
+            "default": "oe_doc"
+          },
+          "query": {
+            "type": "string",
+            "description": "Natural language search query"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of results to return",
+            "default": 10,
+            "maximum": 20
+          },
+          "filters": {
+            "type": "object",
+            "description": "Optional filters such as version. Omit this field unless filtering is explicitly needed.",
+            "additionalProperties": true
+          },
+          "options": {
+            "type": "object",
+            "description": "Reserved extension options",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_doc",
+      "description": "\nGet the full content overview of a required document by docId, typically after search_doc returns a docId and the user wants the full document.\n",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Document library identifier"
+          },
+          "docId": {
+            "type": "string",
+            "description": "Unique document identifier"
+          },
+          "maxTokens": {
+            "type": "integer",
+            "description": "Maximum returned token budget",
+            "default": 10000,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "path",
+          "docId"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    }
+  ]
+}

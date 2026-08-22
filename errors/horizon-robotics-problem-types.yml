@@ -1,0 +1,72 @@
+generated: '2026-08-22'
+method: probed
+source: https://mcp.oe.horizon.auto/mcp
+format: json-rpc-2.0
+rfc9457: false
+summary: >-
+  Horizon Robotics publishes no error reference for its machine surface. The Open Explorer
+  MCP server returns errors in the JSON-RPC 2.0 envelope mandated by the Model Context
+  Protocol, and one error was observed directly during probing. Nothing beyond the JSON-RPC
+  base codes is documented, and no error catalogue exists in the OpenExplorer manual for
+  the MCP surface — so this file records only what was actually seen on the wire plus the
+  spec-mandated envelope, and does not enumerate codes the provider has not published.
+envelope:
+  transport: 'HTTP 200 with a text/event-stream `event: message` frame'
+  shape: '{"jsonrpc":"2.0","id":<id>,"error":{"code":<int>,"message":<string>,"data":<any?>}}'
+  note: >-
+    Protocol errors ride a 200 response; the HTTP status is not the error signal. An agent
+    must parse the JSON-RPC body. Tool-level failures are returned as a tool result with
+    `isError: true` rather than a JSON-RPC error, per MCP.
+problem_types:
+- code: -32601
+  name: MethodNotFound
+  title: Method not found
+  http_status: 200
+  observed: true
+  observed_on: '2026-08-22'
+  observed_request: '{"jsonrpc":"2.0","id":4,"method":"prompts/list"}'
+  observed_response: '{"jsonrpc":"2.0","id":4,"error":{"code":-32601,"message":"Method not found"}}'
+  meaning: The server does not implement the requested JSON-RPC method. Open Explorer MCP implements tools/* and resources/* but not prompts/*.
+  remediation: Read the server capabilities returned by `initialize` before calling a method family; this server advertises only `tools` and `resources`.
+  source: probed
+- code: -32700
+  name: ParseError
+  title: Parse error
+  meaning: Invalid JSON was received by the server.
+  source: 'JSON-RPC 2.0 base (spec-mandated by MCP), not observed'
+  observed: false
+- code: -32600
+  name: InvalidRequest
+  title: Invalid Request
+  meaning: The JSON sent is not a valid Request object.
+  source: 'JSON-RPC 2.0 base (spec-mandated by MCP), not observed'
+  observed: false
+- code: -32602
+  name: InvalidParams
+  title: Invalid params
+  meaning: Invalid method parameters — e.g. `search_doc` called without the required `query`, or `get_doc` without `path`/`docId`.
+  source: 'JSON-RPC 2.0 base (spec-mandated by MCP), not observed'
+  observed: false
+- code: -32603
+  name: InternalError
+  title: Internal error
+  meaning: Internal JSON-RPC error on the server.
+  source: 'JSON-RPC 2.0 base (spec-mandated by MCP), not observed'
+  observed: false
+not_found:
+  http_errors:
+    note: >-
+      Ordinary HTTP 404s from the same host carry a plain HTML body, not a problem+json
+      or JSON-RPC document. Probed https://mcp.oe.horizon.auto/llms.txt -> 404 text/html.
+gaps:
+- No published error reference for the MCP surface.
+- No application/problem+json (RFC 9457) anywhere in the surface.
+- No documented error codes for the horizon_tc_ui CLI, though the OE-Skills repository ships troubleshooting references per failure class.
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://mcp.oe.horizon.auto/mcp
+    status: 200
+    note: prompts/list returned JSON-RPC -32601
+  - url: https://mcp.oe.horizon.auto/llms.txt
+    status: 404

@@ -1,0 +1,121 @@
+generated: '2026-08-22'
+method: probed
+source: https://mcp.oe.horizon.auto/mcp
+docs: https://github.com/HorizonRobotics/OE-Skills
+summary: >-
+  Horizon Robotics' only callable machine surface is an MCP server, so its cross-cutting
+  semantics are the Model Context Protocol's, not REST's. Everything below was read off
+  the live server or the provider's own skill pack; nothing is inferred from prose.
+surface:
+  style: JSON-RPC 2.0 over Streamable HTTP (Model Context Protocol 2025-06-18)
+  endpoint: https://mcp.oe.horizon.auto/mcp
+  content_negotiation: 'client sends Accept: application/json, text/event-stream; server replies text/event-stream'
+authentication:
+  style: none
+  detail: authentication/horizon-robotics-authentication.yml
+idempotency:
+  supported: true
+  mechanism: MCP tool annotations
+  header: null
+  key_scope: null
+  retention: null
+  detail: >-
+    All four published tools carry `"idempotentHint": true` alongside
+    `"readOnlyHint": true` and `"destructiveHint": false` in their tools/list
+    declaration. In MCP this is the contract-level idempotency declaration: the provider
+    is telling a calling agent, in machine-readable form, that repeating any of these
+    calls with the same arguments has no additional effect. There is no idempotency-key
+    header because there is nothing to de-duplicate — the server exposes no write
+    surface at all.
+  coverage: 4 of 4 tools (100%)
+  evidence: mcp/horizon-robotics-mcp-tools.json
+  grade_note: >-
+    This is a genuine published idempotency declaration, but it is the trivial case:
+    idempotency is free on a read-only API. Read it as "no write surface", not as
+    "safe retry semantics on writes".
+pagination:
+  style: limit-only
+  params:
+    limit:
+      tools: [search_code, search_doc]
+      default: 10
+      maximum: {search_code: 50, search_doc: 20}
+  cursor: null
+  detail: >-
+    No cursor, offset, page token or total count. `search_code` and `search_doc` accept a
+    `limit` capped at 50 and 20 respectively; there is no documented way to reach the
+    next page of results. `get_doc` bounds output with `maxTokens` (default 10000) rather
+    than by page.
+filtering_and_scoping:
+  search_code:
+    scope: optional array of indexed codebase / Milvus collection names, discovered via list_codebases
+  search_doc:
+    path: document library identifier, defaults to `oe_doc`
+    filters: free-form object, documented only as 'optional constraints such as version'
+  note: >-
+    The `filters` object on search_doc is declared with `additionalProperties: true` and
+    no enumerated keys, so an agent cannot know the valid filter vocabulary from the
+    contract. Same for the reserved `options` object.
+versioning:
+  protocol_version: '2025-06-18'
+  server_version: 3.9.0
+  scheme: semver on serverInfo.version; MCP protocol version is date-stamped and negotiated at initialize
+  in_url: false
+  detail: >-
+    Version is negotiated in the `initialize` handshake, not encoded in the path. There
+    is no /v1/ prefix and no version header.
+error_envelope:
+  format: json-rpc-2.0
+  detail: errors/horizon-robotics-problem-types.yml
+rate_limit_signaling:
+  headers_returned: []
+  detail: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header was observed on any response.
+    See rate-limits/horizon-robotics-rate-limits.yml.
+request_tracing:
+  supported: true
+  header: x-request-id
+  detail: >-
+    Responses carry `x-request-id` (a UUID) plus `x-envoy-upstream-service-time`,
+    `req-cost-time`, `req-arrive-time` and `resp-start-time` timing headers, emitted by
+    the Envoy/nginx edge. Not documented by Horizon, but present and usable for support
+    correlation.
+  observed_example_headers: [x-request-id, x-envoy-upstream-service-time, req-cost-time, req-arrive-time, resp-start-time]
+dry_run_mode:
+  supported: na
+  detail: There is no write surface to rehearse — every tool is read-only.
+reversibility:
+  applicable: false
+  grade: na
+  detail: >-
+    The API is read-only. tools/list declares `readOnlyHint: true` and
+    `destructiveHint: false` on all four tools (list_codebases, search_code, search_doc,
+    get_doc); each returns retrieved text and changes no state on Horizon's side. There
+    is therefore no action an agent can take through this surface that would need
+    taking back — no create, update, delete, purchase, provision or send. No cancel,
+    refund, void, reverse, undo, rollback or restore operation exists, and none is
+    needed. This is an honest `na`, established from the contract itself rather than
+    assumed: the annotations are the provider's own machine-readable statement, saved
+    verbatim in mcp/horizon-robotics-mcp-tools.json.
+  write_surfaces: []
+  reversal_operations: []
+  windows: []
+  note: >-
+    The genuinely irreversible actions in the Horizon developer workflow — flashing a
+    board, overwriting a compiled .hbm, deleting artifacts during board cleanup — happen
+    through the local CLI and the OE-Skills board skills, on the developer's own machine
+    and hardware, not through any Horizon-operated API. The `board-cleanup` reference in
+    OE-Skills is the closest thing to a documented destructive procedure and it is
+    local.
+cross_links:
+  errors: errors/horizon-robotics-problem-types.yml
+  lifecycle: lifecycle/horizon-robotics-lifecycle.yml
+  authentication: authentication/horizon-robotics-authentication.yml
+  rate_limits: rate-limits/horizon-robotics-rate-limits.yml
+  mcp: mcp/horizon-robotics-mcp.yml
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - url: https://mcp.oe.horizon.auto/mcp
+    status: 200
+    note: tools/list + resources/list + initialize, response headers captured

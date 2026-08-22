@@ -1,0 +1,154 @@
+generated: '2026-08-22'
+method: probed
+source: https://mcp.oe.horizon.auto/mcp + https://github.com/HorizonRobotics/OE-Skills
+summary: >-
+  Horizon Robotics conforms to the agent-side standards it has adopted and to nothing
+  else that could be verified. The Model Context Protocol implementation is genuine and
+  current, and the Agent Skills packaging follows the published SKILL.md convention. On
+  the API side there is nothing to assert against: no OpenAPI, no OAuth, no OIDC, no
+  RFC 9457, no RFC 9116. Automotive-sector standards the company's market does have
+  (ISO/SAE 21434, UN R155/R156, ISO 26262, ASPICE) are NOT claimed anywhere in the public
+  surface examined, so they are recorded as unverified rather than as failures — no
+  conformance is invented to fill a slot.
+conformance:
+- id: mcp
+  name: Model Context Protocol
+  version: '2025-06-18'
+  conforms: true
+  evidence: >-
+    `initialize` on https://mcp.oe.horizon.auto/mcp returned protocolVersion
+    "2025-06-18" with a capabilities object; `tools/list` returned four tools each with a
+    valid JSON Schema `inputSchema` and MCP tool annotations
+    (readOnlyHint/destructiveHint/idempotentHint); `resources/list` returned three
+    resources with uri/name/title/mimeType/annotations. Streamable HTTP transport with
+    text/event-stream framing. Probed 2026-08-22.
+  method: probed
+  artifact: mcp/horizon-robotics-mcp-tools.json
+- id: jsonrpc-2.0
+  name: JSON-RPC 2.0
+  conforms: true
+  evidence: >-
+    All responses carry `"jsonrpc":"2.0"` with matching request `id`; an unimplemented
+    method returned the spec-defined error object {"code":-32601,"message":"Method not
+    found"}.
+  method: probed
+- id: json-schema
+  name: JSON Schema (draft 2020-12 style object schemas)
+  conforms: true
+  evidence: >-
+    Every MCP tool inputSchema is a `{"type":"object","properties":{...},"required":[...]}`
+    document with typed properties, defaults and maxima (e.g. search_code.limit default 10
+    maximum 50). This is the only machine-readable parameter contract Horizon publishes.
+  method: probed
+- id: agent-skills
+  name: Agent Skills (SKILL.md frontmatter convention)
+  conforms: true
+  evidence: >-
+    37 SKILL.md files in HorizonRobotics/OE-Skills carry YAML frontmatter with `name` and
+    `description`, indexed by horizon/skill-index.json with per-skill semver, module and
+    skillFile path. Targets Claude Code, Codex and Cursor explicitly.
+  method: searched
+  artifact: skills/_index.yml
+- id: onnx
+  name: ONNX (Open Neural Network Exchange)
+  conforms: true
+  evidence: >-
+    The OpenExplorer toolchain takes ONNX (and Caffe) as its model input format across
+    hb_compile, hb_model_info and the HMCT quantization path — ONNX is the interchange
+    contract at the front of every documented Horizon deployment flow.
+  method: searched
+  source_url: https://developer.horizon.auto/docs
+- id: ros2
+  name: ROS 2
+  conforms: true
+  evidence: >-
+    Horizon TogetheROS™ (TogetheROS.Bot) is stated by Horizon to be ROS 2 compatible and
+    is listed as an in-scope product in the company's own product-security policy.
+  method: searched
+  source_url: https://www.horizon.auto/en/legal/security
+- id: perfetto
+  name: Perfetto trace format
+  conforms: true
+  evidence: >-
+    UCP on-board performance analysis is published as Perfetto trace capture and analysis
+    (skills j6-ucp-perfetto-trace-catcher, j6-ucp-perfetto-trace-analysis), i.e. Horizon
+    emits its runtime traces in a standard, third-party-readable format rather than a
+    proprietary one.
+  method: searched
+- id: cvss
+  name: CVSS (FIRST Common Vulnerability Scoring System)
+  conforms: true
+  evidence: >-
+    The product-security policy states Horizon security advisories include a CVSS severity
+    rating and links https://www.first.org/cvss/user-guide.html.
+  method: searched
+  source_url: https://www.horizon.auto/en/legal/security
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: >-
+    No OpenAPI/Swagger document exists. Probed /openapi.json, /openapi.yaml, /swagger.json,
+    /v1/openapi.json, /api-docs, /redoc across www.horizon.auto, developer.horizon.auto,
+    doc.oe.horizon.auto, oe.horizon.auto, chat.oe.horizon.auto and mcp.oe.horizon.auto —
+    real 404s on the hosts with real 404 handlers, SPA catch-all shells on the rest.
+  method: probed
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: No application/problem+json is emitted anywhere; errors use the JSON-RPC envelope.
+  method: probed
+- id: rfc9116
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: >-
+    A full product-security policy is published at /en/legal/security with a dedicated
+    reporting address, but no /.well-known/security.txt is served on any host (404 on
+    www.horizon.auto and mcp.oe.horizon.auto; SPA shell elsewhere). The policy exists; the
+    machine-readable pointer to it does not.
+  method: probed
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: No authorization server metadata, no protected-resource metadata, no OAuth challenge on the MCP endpoint.
+  method: probed
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: /.well-known/openid-configuration 404s on every host with a real 404 handler.
+  method: probed
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: No event, streaming or webhook surface is published. Not applicable rather than deficient.
+  method: probed
+domain_standard:
+  market: automotive smart-driving silicon and software
+  declared_in_contract: false
+  note: >-
+    REWARD-ONLY, and no reward is claimed. The regulatory standards that govern this
+    market — ISO/SAE 21434 cybersecurity engineering, UN R155/R156, ISO 26262 functional
+    safety, Automotive SPICE, AEC-Q100 — are not asserted anywhere in the public surface
+    examined, including the product-security page where a 21434 or R155 claim would
+    naturally sit. Horizon's marketing uses the phrase "safety certification" as a keyword
+    without naming a scheme, a certificate number or a certifying body, and that is too
+    thin to record as conformance. The nearest thing to a domain-standard signature in a
+    machine-readable Horizon contract is ONNX at the model-interchange layer and ROS 2 at
+    the robotics-middleware layer, both recorded above.
+  candidates_probed:
+  - {standard: 'ISO/SAE 21434', found: false, where_looked: 'https://www.horizon.auto/en/legal/security'}
+  - {standard: 'UN R155 / R156', found: false, where_looked: 'https://www.horizon.auto/en/legal/security'}
+  - {standard: 'ISO 26262 / ASIL', found: false, where_looked: 'https://www.horizon.auto/en/legal/security, /en/about'}
+  - {standard: 'Automotive SPICE', found: false, where_looked: 'https://www.horizon.auto/en/legal/security'}
+  - {standard: 'ISO 27001 / SOC 2', found: false, where_looked: 'https://www.horizon.auto/en/legal/security'}
+certifications_published: []
+compliance_note: >-
+  No trust centre, certification index or compliance page was found on any Horizon
+  Robotics host, so no Compliance or TrustCenter pointer is emitted.
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - {url: 'https://mcp.oe.horizon.auto/mcp', status: 200}
+  - {url: 'https://www.horizon.auto/en/legal/security', status: 200}
+  - {url: 'https://developer.horizon.auto/docs', status: 200}
+  - {url: 'https://api.github.com/repos/HorizonRobotics/OE-Skills/git/trees/main?recursive=1', status: 200}
+  - {url: 'https://www.horizon.auto/openapi.json', status: 404}

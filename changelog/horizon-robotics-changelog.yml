@@ -1,0 +1,84 @@
+generated: '2026-08-22'
+method: searched
+source: https://github.com/HorizonRobotics/OE-Skills
+summary: >-
+  Horizon Robotics publishes no product changelog or release-notes page on its website or
+  developer portal. The only dated, structured change history it makes public is inside
+  the OE-Skills repository: nine per-skill CHANGELOG.md files with semver headings and
+  UTC dates, plus the repository's own commit history. That is a real changelog surface,
+  but it covers the agent skill packs only — not the Journey toolchains, the OpenExplorer
+  releases, or the MCP server, none of which have a public change history.
+scheme: semver per skill, dated headings (## [x.y.z] — YYYY-MM-DD)
+current_version:
+  oe_skills_pack: 0.2.0
+  mcp_server: 3.9.0
+changelog_locations:
+- name: OE-Skills per-skill changelogs
+  url: https://github.com/HorizonRobotics/OE-Skills
+  count: 9
+  files:
+  - horizon/skills/hbdk/hbdk-manual/CHANGELOG.md
+  - horizon/skills/hbdk/j6-hbdk-compile/CHANGELOG.md
+  - horizon/skills/horizon_tc_ui/hb-analyzer-performance/CHANGELOG.md
+  - horizon/skills/horizon_tc_ui/horizon-tc-ui/CHANGELOG.md
+  - horizon/skills/ucp/CHANGELOG.md
+  - horizon/skills/ucp/j6-ucp-hbm-infer/CHANGELOG.md
+  - horizon/skills/ucp/j6-ucp-infer-generating/CHANGELOG.md
+  - horizon/skills/ucp/j6-ucp-perfetto-trace-analysis/CHANGELOG.md
+  - horizon/skills/ucp/j6-ucp-perfetto-trace-catcher/CHANGELOG.md
+- name: OE Skill Hub release notes
+  url: null
+  access: 'internal tool only — the changelogs say release notes per version are readable via `oe-cli skill inspect <skill> --version <semver>`, which requires the OE CLI and Hub access'
+  note: >-
+    A machine-readable version registry exists behind `oe-cli`, but it is not reachable
+    from the public web. The repository files are the public projection of it.
+- name: GitHub releases
+  url: https://github.com/HorizonRobotics/OE-Skills/releases
+  count: 0
+  note: The repository tags no releases; version history lives in the changelog files.
+entries:
+- component: j6-hbdk-compile
+  version: 1.1.8
+  date: '2026-06-11'
+  breaking: false
+  highlights:
+  - Reworked the `remove_nodes` deletion strategy — Quantize/Dequantize/Cast now handled as one class, Reshape/Transpose split out as a layout class removed at the end of the flow.
+  - Fixed post-convert operator type matching so a config string such as "Cast" no longer produces a spurious "node not found" and skip a deletion that should have happened.
+  - Added `_normalize_op_types()` to `_remove_op_connected_to_io`, accepting a type list and filtering via `matches_remove_op_type()`.
+- component: j6-hbdk-compile
+  version: 1.1.7
+  date: '2026-04-21'
+  breaking: false
+  highlights:
+  - 'SKILL.md hardened: any model legality check failure must terminate the workflow immediately rather than continuing with `-c` or claiming a validation that did not happen.'
+  - Added explicit hard gates and a list of prohibited agent behaviours.
+- component: OE-Skills pack
+  version: 0.2.0
+  date: '2026-06-30'
+  breaking: false
+  highlights:
+  - Version bump plus i18n (Chinese/English README) links.
+  - Added nash-b (J6B / QNX) board support.
+  - README enriched with MCP server configuration and skill reference tables.
+- component: OE-Skills pack
+  version: 0.1.0
+  date: '2026-06-26'
+  breaking: false
+  highlights:
+  - Initial public release of the Horizon AI toolchain skill packs for AI agents.
+recent_activity:
+  last_commit: '2026-07-01'
+  note: >-
+    Most recent push to OE-Skills was 2026-07-01 (documentation and diagram fixes). The
+    MCP server it installs was live and answering at version 3.9.0 when probed on
+    2026-08-22, so the running service is ahead of anything the repository documents.
+gaps:
+- No changelog for the OpenExplorer toolchain releases themselves (J3 1.16.6, J5 1.1.77, J6 3.0.31) — versions are visible in documentation paths but changes between them are not published.
+- No changelog, release notes or version history for the Open Explorer MCP Server.
+- No RSS/Atom feed for any change history.
+x-evidence:
+  fetched: '2026-08-22'
+  urls:
+  - {url: 'https://raw.githubusercontent.com/HorizonRobotics/OE-Skills/main/horizon/skills/hbdk/j6-hbdk-compile/CHANGELOG.md', status: 200}
+  - {url: 'https://api.github.com/repos/HorizonRobotics/OE-Skills/releases', status: 200, finding: 'empty array'}
+  - {url: 'https://api.github.com/repos/HorizonRobotics/OE-Skills/commits?per_page=10', status: 200}
