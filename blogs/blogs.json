@@ -1,0 +1,14 @@
+{
+  "repo": "horizon-robotics",
+  "feeds": [
+    {
+      "source": "https://developer.horizon.auto/docs",
+      "feed_url": "https://developer.horizon.auto/docs",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-08-22T20:20:02Z"
+}
