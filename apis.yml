@@ -14,6 +14,17 @@ description: 'Horizon Robotics (Hong Kong Stock Exchange: 9660.HK) is a Chinese 
   retrieval, and OE-Skills, an Apache-2.0 pack of 37 structured Agent Skills for
   Claude Code, Codex and Cursor that drive HBDK compilation, PTQ/QAT quantization,
   UCP on-board inference and LLM compression.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.horizon.auto/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/horizon-robotics/refs/heads/main/apis.yml
 x-type: company
