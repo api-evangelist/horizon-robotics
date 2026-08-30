@@ -40,6 +40,19 @@ tags:
 - Semiconductors
 - Robotics
 - Edge AI
+- Machine-Learning
+- MCP
+- Agent Skills
+- Developer Tools
+- China
+tags_raw:
+- Company
+- Artificial Intelligence
+- Automotive
+- Autonomous Driving
+- Semiconductors
+- Robotics
+- Edge AI
 - Machine Learning
 - Model Context Protocol
 - Agent Skills
@@ -56,6 +69,11 @@ apis:
   humanURL: https://github.com/HorizonRobotics/OE-Skills
   baseURL: https://mcp.oe.horizon.auto/mcp
   tags:
+  - MCP
+  - Developer Tools
+  - Documentation
+  - Code Search
+  tags_raw:
   - Model Context Protocol
   - Developer Tools
   - Documentation
