@@ -36,6 +36,8 @@ tools:
   read_only: true
   idempotent: true
   required_params: []
+  description: List the codebases that are currently indexed in Milvus.      The result is determined
+    from indexed collection names. Use this tool before search_code if you need to know valid scope values.
 - name: search_code
   summary: Semantic natural-language search across indexed Horizon codebases, optionally scoped to named
     collections.
@@ -43,6 +45,9 @@ tools:
   idempotent: true
   required_params:
   - query
+  description: Search indexed codebases in Milvus using natural language queries.      You can optionally
+    provide a search scope. When scope is provided, only the specified indexed collections/codebases will
+    be searched.      Use list_codebases first
 - name: search_doc
   summary: Semantic search of Horizon document snippets — manuals, guides, references. Defaults to the
     `oe_doc` library.
@@ -50,6 +55,9 @@ tools:
   idempotent: true
   required_params:
   - query
+  description: Search Horizon-related document snippets by natural language query, including manuals,
+    guides, references, and relevant passages. Use document library path `oe_doc` by default. Only provide
+    `path` when you need to search a different librar
 - name: get_doc
   summary: Read the full content overview of a document by docId, normally after search_doc returns one.
   read_only: true
@@ -57,6 +65,8 @@ tools:
   required_params:
   - path
   - docId
+  description: Get the full content overview of a required document by docId, typically after search_doc
+    returns a docId and the user wants the full document.
 resource_count: 3
 resources:
 - uri: openexplorer://mcp/overview
@@ -103,3 +113,5 @@ x-evidence:
   notes: No Authorization header, session id or client registration was needed; the server answered anonymous
     POSTs from a plain curl. Every tool carries MCP annotations readOnlyHint:true, destructiveHint:false,
     idempotentHint:true — the server exposes no write surface.
+descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
+  --descriptions, 2026-09-28
