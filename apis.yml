@@ -54,7 +54,7 @@ tags:
 - Semiconductors
 - Robotics
 - Edge AI
-- Machine-Learning
+- Machine Learning
 - MCP
 - Agent Skills
 - Developer Tools
@@ -72,6 +72,7 @@ tags_raw:
 - Agent Skills
 - Developer Tools
 - China
+- Machine-Learning
 apis:
 - name: Open Explorer MCP Server
   description: 'Horizon Robotics'' hosted Model Context Protocol server for the
