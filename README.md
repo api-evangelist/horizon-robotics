@@ -64,63 +64,111 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Horizon Robotics (Hong Kong Stock Exchange: 9660.HK, founded 2015) designs the Journey (征程)
-family of automotive AI processors around its own BPU (Brain Processing Unit) architecture, and
-ships the smart-driving software stack that runs on them — Horizon Mono ADAS, Horizon SuperDrive,
-TogetheROS, Matrix, QoHo and AIDI.
+Horizon Robotics (Hong Kong Stock Exchange: 9660.HK) is a Chinese provider of smart-driving computing solutions, founded in 2015, that designs the Journey (征程) family of automotive AI processors around its proprietary BPU (Brain Processing Unit) architecture and pairs them with a full software stack — Horizon Mono ADAS, Horizon SuperDrive assisted driving, TogetheROS, Matrix, QoHo and AIDI. Its developer-facing surface is not a hosted web API but a toolchain: OpenExplorer (OE), the model compilation, quantization and deployment kit built around HBDK, HMCT, the Horizon PyTorch Plugin, horizon_tc_ui and the UCP on-board runtime, documented at developer.horizon.auto and doc.oe.horizon.auto. Horizon publishes two genuine agent surfaces on top of that toolchain: a live, unauthenticated remote Model Context Protocol server at mcp.oe.horizon.auto that exposes semantic code and documentation retrieval, and OE-Skills, an Apache-2.0 pack of 37 structured Agent Skills for Claude Code, Codex and Cursor that drive HBDK compilation, PTQ/QAT quantization, UCP on-board inference and LLM compression.
 
-**Horizon Robotics does not operate a hosted web API.** There is no OpenAPI document, no GraphQL
-endpoint, no event surface, no pricing page and no self-serve signup. That was established by
-probing, not assumed: `/openapi.json`, `/openapi.yaml`, `/swagger.json`, `/v1/openapi.json`,
-`/api-docs`, `/redoc`, `/graphql` and the full `/.well-known/` set were fetched against six hosts
-(`www.horizon.auto`, `developer.horizon.auto`, `doc.oe.horizon.auto`, `oe.horizon.auto`,
-`chat.oe.horizon.auto`, `mcp.oe.horizon.auto`) on 2026-08-22 and every one either 404'd or returned
-a single-page-app catch-all shell.
+**Areas:** Company · Artificial Intelligence · Automotive · Autonomous Driving · Semiconductors · Robotics · Edge AI · Machine Learning · MCP · Agent Skills · Developer Tools · China
 
-What Horizon *does* publish is two real agent surfaces on top of its OpenExplorer toolchain:
+## Horizon Robotics on APIs.io
 
-- **A live remote MCP server** at `https://mcp.oe.horizon.auto/mcp` — Model Context Protocol
-  `2025-06-18`, serverInfo *Open Explorer MCP Server* 3.9.0, **no authentication required**. Four
-  read-only tools (`list_codebases`, `search_code`, `search_doc`, `get_doc`) give an agent semantic
-  retrieval over Horizon's indexed codebases and documentation library, plus three MCP resources.
-  The verbatim `tools/list` and `resources/list` responses are saved in `mcp/`.
-- **OE-Skills** — Horizon's own Apache-2.0 Agent Skill pack
-  ([github.com/HorizonRobotics/OE-Skills](https://github.com/HorizonRobotics/OE-Skills), v0.2.0),
-  37 `SKILL.md` files indexed as 29 skills across six modules, driving HBDK compilation, HMCT/Plugin
-  quantization, UCP on-board inference and LLM compression from Claude Code, Codex or Cursor.
-  Indexed in `skills/_index.yml`; nothing in this repository was authored on Horizon's behalf.
+Everything profiled for Horizon Robotics is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/horizon-robotics/](https://apis.io/providers/horizon-robotics/)** — or go straight to one of the APIs or properties below.
 
-The developer contract for everything else is a command line, not an endpoint: `hb_compile`,
-`hb_model_info`, `hb_verifier`, `hb_analyzer`, `hb_config_generator` and `hb_eval_preprocess`,
-documented in `cli/`. The Python and C++ libraries behind them (`horizon_plugin_pytorch`,
-`hbdk4-compiler`, `hmct`, `hbDNN`, …) are real first-party SDKs but ship only inside the
-OpenExplorer package — none is on npm, PyPI, Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist
-or crates.io, all of which were probed. See `packages/`.
+### APIs (1)
 
-### Findings worth the company's attention
+- [Open Explorer MCP Server](https://apis.io/apis/horizon-robotics/open-explorer-mcp-server/) — Horizon Robotics' hosted Model Context Protocol server for the OpenExplorer toolchain. Probed anonymously on 2026-08-22: MCP protocol version 2025-06-18,…
 
-- `doc.oe.horizon.auto`, the canonical OpenExplorer manual linked from the developer portal, was
-  serving an **expired TLS certificate** on 2026-08-22. Any client that verifies certificates —
-  including most automated toolchains and agents — cannot read it.
-- The product-security page tells reporters to encrypt with a PGP key and renders the unfilled
-  template placeholders `[pgp-public-key.asc]` and `(insert key link)`. No key file is served.
-- The product-security policy's in-scope list names `github.com/HorizonRDK` (now the D-Robotics
-  spin-off) and `github.com/HorizonRobotics-Platform` (0 public repos), but not the active
-  `github.com/HorizonRobotics` org, and not the anonymously reachable MCP endpoint.
-- No `/.well-known/security.txt` on any host, despite a full disclosure policy existing.
+### Published properties
 
-### Not Horizon Robotics
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-**D-Robotics** (地瓜机器人 — `developer.d-robotics.cc`, `github.com/D-Robotics`, and the renamed
-`github.com/HorizonRDK` org) is a **separate company**, spun off from Horizon Robotics in 2024 and
-independently funded since. Its RDK developer kits, documentation and repositories are deliberately
-**not** catalogued here and must not be attributed to Horizon Robotics.
+#### MCP servers (1)
 
-### Links
+Model Context Protocol servers that expose the API to agents.
 
-- Website — https://www.horizon.auto/en
-- Developer portal — https://developer.horizon.auto/
-- Documentation — https://developer.horizon.auto/docs
-- Forum — https://developer.horizon.auto/forum
-- GitHub — https://github.com/HorizonRobotics
-- Product security — https://www.horizon.auto/en/legal/security
+- [Open Explorer MCP Server](https://apis.io/servers/horizon-robotics/open-explorer-mcp-server/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Horizon Robotics Authentication](https://apis.io/security/horizon-robotics/horizon-robotics-authentication/)
+- [Horizon Robotics Domain Security](https://apis.io/security/horizon-robotics/horizon-robotics-domain-security/)
+- [Horizon Robotics Vulnerability Disclosure](https://apis.io/security/horizon-robotics/horizon-robotics-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Horizon Robotics Plans Pricing](https://apis.io/plans/horizon-robotics/horizon-robotics-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Horizon Robotics Rate Limits](https://apis.io/rate-limits/horizon-robotics/horizon-robotics-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.horizon.auto/en)
+- [Documentation](https://developer.horizon.auto/docs)
+- [Sign up](https://developer.horizon.auto/login)
+- [Support](https://developer.horizon.auto/forum)
+- [Blog](https://developer.horizon.auto/blog)
+- [Privacy policy](https://www.horizon.auto/en/legal/privacy)
+- [GitHub](https://github.com/HorizonRobotics)
+
+## API Evangelist rating
+
+**Kin Score 28.9** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 28.9 |
+| Developer ergonomics | 50.0 |
+| Access clarity | 23.7 |
+
+**Agent readiness 23.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/horizon-robotics/](https://apis.io/providers/horizon-robotics/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Horizon Robotics: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/horizon-robotics/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
